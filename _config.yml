@@ -64,10 +64,6 @@ rss-description: This website is a virtual proof that I'm awesome
 
 # --- General options --- #
 
-# If you are building a simple GitHub user page (http://username.github.io) then use these settings:
-url: "http://zachlim98.github.io/"
-baseurl: "/3rdYrStats"
-
 # Select which social network share links to show in posts
 share-links-active:
   twitter: false
