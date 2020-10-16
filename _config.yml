@@ -15,7 +15,7 @@ author: Zachary Lim
 
 navbar-links:
   About Me: "aboutme"
-  Author's home: "https://github.com/zachlim98"
+  Author's home: "zachlim98.github.io/me"
 
 # --- Logo --- #
 
@@ -36,7 +36,7 @@ round-avatar: true
 # Select the social network links that you want to show in the footer.
 # Uncomment the links you want to show and add your information to each one.
 social-network-links:
- # email: "someone@example.com"
+  email: "zachary.lim@stcatz.ox.ac.uk"
   #facebook: deanattali
   #github: daattali
   #twitter: daattali
