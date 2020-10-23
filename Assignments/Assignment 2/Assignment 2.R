@@ -31,12 +31,15 @@ walks <- cbind(game_names,walks) #add game number to df
 walks <- walks %>% pivot_longer(!game,names_to="Game",values_to="Money")  %>%
    mutate(Round=as.integer(gsub("X","",Game))) #pivot from rows to columns
 
+library(ggplot2)
 #create plot
 plot <- walks %>% ggplot(aes(x=Round,y=Money,group=factor(game),color=factor(game))) +
   geom_line(size=1) +
-  scale_y_continuous(breaks=seq(-10,10,2)) +
+  scale_y_continuous(breaks=seq(-10,10,1)) +
   scale_x_continuous(breaks=seq(0,220,10)) +
   labs(title="Outcome of 10 Games",x="No. of bets",y="Money",color="Game Number") +
+  annotate("label", x = c(52,57,130,170), y = 10.5, label="win") +
+  annotate("label", x = c(60,90,120,132,138,210), y = -10.5, label="lose") +
   scale_color_viridis_d() +
   theme_bw() 
 
