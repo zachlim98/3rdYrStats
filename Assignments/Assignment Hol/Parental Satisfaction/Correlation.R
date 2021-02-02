@@ -14,10 +14,13 @@ combined  <- stringdist_join(marital, parenting,
                 method = "jw",
                 ignore_case = TRUE,
                 distance_col = "dist",
-                max_dist = 8) %>%
+                max_dist = 0.5) %>%
   group_by(Name.x) %>%
-  slice_min(order_by = dist, n = 1) %>% 
-  filter(dist < 0.27)
+  slice_min(order_by = dist, n = 1) %>%
+  arrange(desc(dist))
+
+# %>%
+#   filter(dist < 0.27)
 
 write.csv(combined, file="combined.csv")
 survey <- read.csv("combined.csv") %>%
