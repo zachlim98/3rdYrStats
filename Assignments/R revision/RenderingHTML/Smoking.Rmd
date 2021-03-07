@@ -1,0 +1,64 @@
+---
+title: "Smoking"
+author: "Zachary Lim"
+date: "2/27/2021"
+output: html_document
+---
+
+# Introduction
+
+Another practice document to ensure we are able to use plotly with what Elias wants us to do.
+
+# Data Loading 
+
+First, we load the data again, using the smoking dataset provided. 
+
+```{r load, message=FALSE, warning=FALSE}
+library(dplyr)
+library(plotly)
+library(tidyverse)
+
+smokers <- read_csv("smoking.csv")
+```
+
+# Plotting 
+
+We need to plot the association between smoking and years left to live based on age quantile. We can do this using plotly to create a more interactive plot. But first, we have to split the dataset up into different age quantiles. 
+
+```{r break, message=FALSE, warning=FALSE}
+smokers <- smokers %>% mutate(group = cut(age, breaks=c(-Inf, 50.24962, 57.61331, 63.89274, Inf),
+                                           labels = c("0 - 50", "51 - 57", "58 - 63", "64 and Over")))
+
+# Group data
+df <- smokers %>%
+  group_by(group, smoker) %>%
+  summarise(mean = mean(years))
+
+df$smoker <- replace(df$smoker, df$smoker==1, "Yes")
+df$smoker <- replace(df$smoker, df$smoker==0, "No")
+
+```
+
+After we break them up, we can use plotly to plot it out using bar charts (which Elias showed was probably the clearest way to do it)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+fig <- df %>% plot_ly(x=~group, y=~mean, type="bar", text=df$smoker,
+                      transforms = list(list(type="groupby", 
+                                             groups=df$smoker,
+                                             styles=list(
+                                               list(target="No", value=list(marker=list(color='blue'))),
+                                               list(target="Yes", value=list(marker=list(color='darkred')))
+                                             ))), hoverinfo='skip',
+                      hovertemplate = paste("Smoker: %{text}",
+                                            "<br>Years left:%{y: .2f}</br><extra></extra>")) %>%
+  layout(barmode="group", 
+         title="Comparison of Years Left to Live", 
+         xaxis=list(title="Age Group Quartiles"), 
+         yaxis=list(title="Years left to live"),
+         showlegend=TRUE,
+         legend=list(title=list(text="<b>Smoker?</b>")))
+
+fig
+```
+
+And here's hoping it works!
